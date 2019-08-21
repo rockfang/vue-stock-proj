@@ -17,7 +17,7 @@ const actions = {
     commit("SET_STOCKS",stocksdata);
   },
   buyStock: ({commit},order) => {
-    commit();
+    commit("BUY_STOCK",order);
   },
   randomStocks:({commit}) => {
     commit("RND_STOCKS");
