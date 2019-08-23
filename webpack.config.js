@@ -60,12 +60,12 @@ if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
-    new webpack.DefinePlugin({
+    new webpack.DefinePlugin({//发布生产文件，作用：可以去掉vue的一些告警信息，缩小文件体积
       'process.env': {
         NODE_ENV: '"production"'
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({
+    new webpack.optimize.UglifyJsPlugin({//优化插件：缩短代码使得代码更紧凑
       sourceMap: true,
       compress: {
         warnings: false

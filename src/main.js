@@ -9,7 +9,7 @@ Vue.filter("currency",value=> {
 });
 Vue.use(VueRouter);
 Vue.use(VueResource);
-Vue.http.options.root = "http://127.0.0.1:3002/";
+Vue.http.options.root = "https://api2.icaifun.com/";
 const router = new VueRouter({
     mode: "history",
     routes
