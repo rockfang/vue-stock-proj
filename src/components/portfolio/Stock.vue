@@ -12,14 +12,15 @@
           <input
             type="number"
             class="form-control"
-            v-model="quantity"
+            v-model.number="quantity"
+            :class="{danger:insuffientQuantity}"
             placeholder="数量">
         </div>
         <div class="pull-right">
           <button class="btn btn-success"
                   @click="sellStock"
-                  :disabled="btnDisabled">
-            出售
+                  :disabled="insuffientQuantity || btnDisabled">
+            {{insuffientQuantity ? "超出可售量" : "出售"}}
           </button>
         </div>
       </div>
@@ -37,6 +38,11 @@
         btnDisabled: true
       }
     }, props: ["stock"],
+    computed: {
+      insuffientQuantity() {
+        return this.quantity > this.stock.quantity;
+      }
+    },
     methods:  {
       //演示mapActions用法，这里sellStock对应actions中的sellStock方法
       ...mapActions({
@@ -67,5 +73,7 @@
 </script>
 
 <style scoped>
-
+.danger {
+  border: 1px solid red;
+}
 </style>

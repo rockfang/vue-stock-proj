@@ -12,12 +12,13 @@
           <input
             type="number"
             class="form-control"
-            v-model="quantity"
+            v-model.number="quantity"
+            :class="{danger: insuffientFunds}"
             placeholder="数量">
         </div>
         <div class="pull-right">
-          <button class="btn btn-success" @click="buyStock" :disabled="btnDisabled">
-            购买
+          <button class="btn btn-success" @click="buyStock" :disabled="insuffientFunds || btnDisabled">
+            {{insuffientFunds ? "资金不足" : "购买"}}
           </button>
         </div>
       </div>
@@ -33,7 +34,8 @@
           quantity: 0,
           btnDisabled: true
         }
-      }, props: ["stock"],
+      },
+      props: ["stock"],
       methods:  {
         buyStock() {
           let order = {
@@ -43,7 +45,16 @@
           };
           this.$store.dispatch("buyStock",order);
         },
-      },watch: {
+      },
+      computed: {
+        funds() {
+          return this.$store.getters.funds;
+        },
+        insuffientFunds() {
+          return this.quantity * this.stock.price > this.funds;
+        }
+      },
+      watch: {
         quantity: function (number) {
           let re = /^\+?[1-9][0-9]*$/;//正整数
           if (!re.test(number)) {
@@ -58,5 +69,7 @@
 </script>
 
 <style scoped>
-
+ .danger {
+   border: 1px solid red;
+ }
 </style>
